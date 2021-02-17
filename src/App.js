@@ -1,8 +1,10 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
+import {connect} from 'react-redux';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './pages/Main';
+import Settings from './pages/Settings';
 import './App.css';
 
 function App() {
@@ -10,11 +12,12 @@ function App() {
     <>
       <Header />
       <Switch>
-        <Route path="/" exact render={() => <Main />} />
+        <Route path="/game" render={() => <Main />} />
+        <Route path="/" exact render={() => <Settings />} />
       </Switch>
       <Footer />
     </>
   );
 }
 
-export default App;
+export default connect(null, null)(App);

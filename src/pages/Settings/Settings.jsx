@@ -1,15 +1,15 @@
 import React from 'react';
 import { Redirect } from 'react-router';
 import { connect } from "react-redux";
-import './Main.scss';
+import './Settings.scss';
 
-const Main = ({isOpenGame}) => {
+const Settings = ({isOpenGame}) => {
 
-  if(isOpenGame) return <Redirect to='/'/>
+  if(!isOpenGame) return <Redirect to='/game'/>
 
   return (
     <main className="main">
-      Main
+      Settings
     </main>
   );
 };
@@ -18,5 +18,4 @@ const mapStateToProps = ({isOpenGame}) => {
   return {isOpenGame};
 };
 
-
-export default connect(mapStateToProps)(Main);
+export default connect(mapStateToProps)(Settings);
