@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import BarUsers from '../../components/BarUsers';
 import {Redirect} from 'react-router';
 import {connect} from 'react-redux';
 import {
@@ -12,9 +13,11 @@ import './Main.scss';
 
 const Main = ({isOpenGame}) => {
   const [field, setField] = useState([]);
+  const [isMovePlayer1, setIsMovePlayer1] = useState(true);
 
   useEffect(() => {
     init_LS();
+    setIsMovePlayer1(getIsMovePlayer1_LS());
     setField(getField_LS());
   }, [setField]);
 
@@ -30,6 +33,8 @@ const Main = ({isOpenGame}) => {
     });
 
     switchPlayers_LS();
+
+    setIsMovePlayer1(getIsMovePlayer1_LS());
     setField(newField);
     setField_LS(newField);
   };
@@ -38,6 +43,7 @@ const Main = ({isOpenGame}) => {
 
   return (
     <main className="main">
+      <BarUsers isMovePlayer1={isMovePlayer1} />
       <div className="main__field">
         {field.map((row, i) => {
           return (
