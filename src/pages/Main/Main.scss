@@ -4,4 +4,43 @@
   align-items: center;
   height: calc(100vh - 100px);
   color: #fff;
+  &__field {
+    width: 300px;
+    height: 300px;
+    .row {
+      height: 33.33333%;
+      &:first-child {
+        .col {
+          border-top: 0;
+        }
+      }
+      &:last-child {
+        .col {
+          border-bottom: 0;
+        }
+      }
+      .col {
+        width: 33.33333%;
+        background-color: transparent;
+        border: 1px solid #fff;
+        transition: 0.2s ease-in-out;
+        font-size: 4em;
+        color: #fff;
+        &:hover {
+          background-color: #333;
+        }
+        &.disabled {
+          &:hover {
+            background-color: transparent;
+          }
+        }
+        &:first-child {
+          border-left: 0;
+        }
+        &:last-child {
+          border-right: 0;
+        }
+      }
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import rssLogo from './rs_school_js.png'; // relative path to image
 import './Footer.scss';
 
 const Footer = () => {
@@ -11,11 +12,11 @@ const Footer = () => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <i className="fab fa-github logoGit"></i>
+        <i className="fab fa-github logo-git"></i>
         musakius
       </a>
       <a className="link" href="https://rs.school/js/" target="_blank" rel="noopener noreferrer">
-        <img className="logoRSS" src="https://rs.school/images/rs_school-og.png" alt="rs_school" />
+        <img className="logo-rss" src={rssLogo} alt="rs_school" />
       </a>
     </footer>
   );

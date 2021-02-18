@@ -7,7 +7,7 @@
     margin-right: 10px;
     font-weight: 800;
   }
-  .logoRSS {
+  .logo-rss {
     width: 80px;
   }
   .link {
@@ -20,7 +20,7 @@
     &:hover {
       border-bottom: 1px solid #fff;
     }
-    .logoGit {
+    .logo-git {
       font-size: 20px;
       margin-right: 5px;
     }
@@ -34,11 +34,11 @@
     }
     .link {
       font-size: 15px;
-      .logoGit {
+      .logo-git {
         display: none;
       }
     }
-    .logoRSS {
+    .logo-rss {
       width: 30px;
     }
   }
