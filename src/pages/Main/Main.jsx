@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import BarUsers from '../../components/BarUsers';
 import {Redirect} from 'react-router';
 import {connect} from 'react-redux';
+import {getDataCheckGameState} from '../../helpers/checkWin';
 import {
   init_LS,
   switchPlayers_LS,
@@ -14,6 +15,8 @@ import './Main.scss';
 const Main = ({isOpenGame}) => {
   const [field, setField] = useState([]);
   const [isMovePlayer1, setIsMovePlayer1] = useState(true);
+  const [playerWin, setPlayerWin] = useState(null);
+  const [stylesForWin, setStylesForWin] = useState({});
 
   useEffect(() => {
     init_LS();
@@ -33,10 +36,18 @@ const Main = ({isOpenGame}) => {
     });
 
     switchPlayers_LS();
-
     setIsMovePlayer1(getIsMovePlayer1_LS());
     setField(newField);
     setField_LS(newField);
+
+    const {isWin, player, styles} = getDataCheckGameState(newField);
+
+    if (isWin) {
+      setPlayerWin(player);
+      setStylesForWin(styles);
+    }
+
+    console.log(getDataCheckGameState(newField));
   };
 
   if (isOpenGame) return <Redirect to="/" />;
@@ -63,6 +74,7 @@ const Main = ({isOpenGame}) => {
             </div>
           );
         })}
+        <div style={stylesForWin} className="line-win"></div>
       </div>
     </main>
   );

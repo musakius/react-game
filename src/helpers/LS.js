@@ -15,32 +15,37 @@ const createField = (size) => {
 };
 
 const init_LS = () => {
-  if (LS.getItem('isMovePlayer1') === null) LS.setItem('isMovePlayer1', true);
-  if (LS.getItem('isModeVsComputer') === null) LS.setItem('isModeVsComputer', true);
-  if (LS.getItem('isAudio') === null) LS.setItem('isAudio', true);
-  if (LS.getItem('size') === null) LS.setItem('size', 3);
-  if (LS.getItem('field') === null) LS.setItem('field', createField(LS.getItem('size')));
+  if (LS.getItem('isMovePlayer1_rssGame') === null) LS.setItem('isMovePlayer1_rssGame', true);
+  if (LS.getItem('isModeVsComp_rssGame') === null) LS.setItem('isModeVsComp_rssGame', false);
+  if (LS.getItem('isAudio_rssGame') === null) LS.setItem('isAudio_rssGame', true);
+  if (LS.getItem('sizeField_rssGame') === null) LS.setItem('sizeField_rssGame', 3);
+  if (LS.getItem('field_rssGame') === null) {
+    LS.setItem('field_rssGame', createField(LS.getItem('sizeField_rssGame')));
+  }
 };
 
 const switchPlayers_LS = () => {
-  LS.setItem('isMovePlayer1', !JSON.parse(LS.getItem('isMovePlayer1')));
+  LS.setItem('isMovePlayer1_rssGame', !JSON.parse(LS.getItem('isMovePlayer1_rssGame')));
 };
 
 const setField_LS = (field) => {
-  LS.setItem('field', JSON.stringify(field));
+  LS.setItem('field_rssGame', JSON.stringify(field));
 };
 
-const getIsMovePlayer1_LS = () => JSON.parse(LS.getItem('isMovePlayer1'));
+const getIsMovePlayer1_LS = () => JSON.parse(LS.getItem('isMovePlayer1_rssGame'));
 
-const getIsModeVsComputer_LS = () => JSON.parse(LS.getItem('isModeVsComputer'));
+const getIsModeVsComputer_LS = () => JSON.parse(LS.getItem('isModeVsComp_rssGame'));
 
-const getField_LS = () => JSON.parse(LS.getItem('field'));
+const getSizeField_LS = () => JSON.parse(LS.getItem('sizeField_rssGame'));
+
+const getField_LS = () => JSON.parse(LS.getItem('field_rssGame'));
 
 export {
   init_LS,
   switchPlayers_LS,
   getIsMovePlayer1_LS,
   getIsModeVsComputer_LS,
+  getSizeField_LS,
   getField_LS,
   setField_LS
 };
