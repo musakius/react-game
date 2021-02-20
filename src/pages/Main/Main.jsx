@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import BarUsers from '../../components/BarUsers';
 import {Redirect} from 'react-router';
 import {connect} from 'react-redux';
@@ -15,8 +15,9 @@ import './Main.scss';
 const Main = ({isOpenGame}) => {
   const [field, setField] = useState([]);
   const [isMovePlayer1, setIsMovePlayer1] = useState(true);
-  const [playerWin, setPlayerWin] = useState(null);
-  const [stylesForWin, setStylesForWin] = useState({});
+  const [isWin, setIsWin] = useState(false);
+  const [stylesForLineWin, setStylesForLineWin] = useState({});
+  const refWidthField = useRef(0);
 
   useEffect(() => {
     init_LS();
@@ -25,6 +26,8 @@ const Main = ({isOpenGame}) => {
   }, [setField]);
 
   const addSymbolToField = (idRow, idCol) => {
+    const widthField = refWidthField.current.offsetWidth;
+
     const newField = field.map((row, i) => {
       return row.map((col, j) => {
         if (idRow === i && idCol === j) {
@@ -40,11 +43,11 @@ const Main = ({isOpenGame}) => {
     setField(newField);
     setField_LS(newField);
 
-    const {isWin, player, styles} = getDataCheckGameState(newField);
+    const {isWin, player, styles} = getDataCheckGameState(newField, widthField);
 
     if (isWin) {
-      setPlayerWin(player);
-      setStylesForWin(styles);
+      setIsWin(isWin);
+      setStylesForLineWin(styles);
     }
 
     console.log(getDataCheckGameState(newField));
@@ -55,7 +58,7 @@ const Main = ({isOpenGame}) => {
   return (
     <main className="main">
       <BarUsers isMovePlayer1={isMovePlayer1} />
-      <div className="main__field">
+      <div className="main__field" ref={refWidthField}>
         {field.map((row, i) => {
           return (
             <div className="row" key={i}>
@@ -74,7 +77,9 @@ const Main = ({isOpenGame}) => {
             </div>
           );
         })}
-        <div style={stylesForWin} className="line-win"></div>
+        <div style={stylesForLineWin} className="line-win">
+          <div className={isWin ? 'progress active' : 'progress'}></div>
+        </div>
       </div>
     </main>
   );

@@ -39,66 +39,63 @@ const fieldsWin = {
   ]
 };
 
-const getStylesForWin = (indexCombination, size) => {
+const getStylesForWin = (indexCombination, size, widthField) => {
   const widthCol = Math.floor(100 / size);
-  let styles = {};
 
+  //vertical
   if (indexCombination < size) {
-    styles = {
-      transition: 'width 0.7s',
-      top: `${widthCol * indexCombination + widthCol / 2}%`,
-      height: '3px',
-      width: '100%'
-    };
-  } else if (indexCombination >= size && indexCombination < size * 2) {
-    styles = {
-      transition: 'height 0.7s',
-      left: `${widthCol * (indexCombination - size) + widthCol / 2}%`,
-      height: '100%',
-      width: '3px'
-    };
-  } else if (indexCombination >= size * 2) {
-    if (indexCombination - size * 2) {
-      styles = {
-        transition: 'width 0.7s',
-        top: `${widthCol + widthCol / 2}%`,
-        height: '3px',
-        width: `${Math.sqrt(2) * 500}px`,
-        transform: 'rotate(-45deg)',
-        left: '-104px'
-      };
-    }
-    /* styles = {
-      transition: 'width 0.7s',
-      top: `${widthCol + widthCol / 2}%`,
-      height: '3px',
-      width: `${Math.sqrt(2) * 500}px`,
-      transform: indexCombination - size * 2 ? 'rotate(-45deg)' : 'rotate(45deg)',
-      left: '-104px'
-    }; */
-  }
+    const verticalPos = widthCol * indexCombination + widthCol / 2;
 
-  return styles;
+    return {
+      top: `${verticalPos}%`,
+      width: `${widthField}px`,
+      height: '3px'
+    };
+    //horizontal
+  } else if (indexCombination >= size && indexCombination < size * 2) {
+    const horizontalPos = widthCol * (indexCombination - size) - widthCol;
+
+    return {
+      top: '50%',
+      left: `${horizontalPos}%`,
+      width: `${widthField}px`,
+      height: '3px',
+      transform: 'rotate(90deg)'
+    };
+    //diagonal
+  } else if (indexCombination >= size * 2) {
+    const diagonalPos = indexCombination - size * 2;
+    const diagonalWidth = Math.sqrt(2) * widthField;
+    const shiftLine = -((diagonalWidth - widthField) / 2);
+
+    return {
+      top: '50%',
+      left: `${shiftLine}px`,
+      width: `${diagonalWidth}px`,
+      height: '3px',
+      transform: diagonalPos ? 'rotate(-45deg)' : 'rotate(45deg)'
+    };
+  }
 };
 
-const getDataCheckGameState = (field) => {
+const getDataCheckGameState = (field, widthField) => {
   const size = getSizeField_LS();
   const newField = field.flat();
-  let settingForWin = {isWin: false, player: null, typeAnimate: null, styles: null};
+  let settingForWin = {isWin: false, player: '', styles: {}};
 
   fieldsWin[`combinationsWin_${size}x${size}`].forEach((combination, i) => {
     if (combination.every((x) => newField[x] === 'X')) {
       settingForWin = {
         isWin: true,
         player: 'X',
-        styles: getStylesForWin(i, size)
+        styles: getStylesForWin(i, size, widthField)
       };
     }
     if (combination.every((x) => newField[x] === 'O')) {
       settingForWin = {
         isWin: true,
         player: 'O',
-        styles: getStylesForWin(i, size)
+        styles: getStylesForWin(i, size, widthField)
       };
     }
   });
