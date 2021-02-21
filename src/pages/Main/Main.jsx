@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useRef} from 'react';
 import BarUsers from '../../components/BarUsers';
+import ModalWin from '../../components/ModalWin';
 import {Redirect} from 'react-router';
 import {connect} from 'react-redux';
-import {getDataCheckGameState} from '../../helpers/checkWin';
+import {getDataCheckGameState} from '../../helpers/checkGameState';
 import {
   init_LS,
   switchPlayers_LS,
@@ -15,6 +16,7 @@ import './Main.scss';
 const Main = ({isOpenGame}) => {
   const [field, setField] = useState([]);
   const [isMovePlayer1, setIsMovePlayer1] = useState(true);
+  const [playerWin, setPlayerWin] = useState('');
   const [isWin, setIsWin] = useState(false);
   const [stylesForLineWin, setStylesForLineWin] = useState({});
   const refWidthField = useRef(0);
@@ -24,6 +26,12 @@ const Main = ({isOpenGame}) => {
     setIsMovePlayer1(getIsMovePlayer1_LS());
     setField(getField_LS());
   }, [setField]);
+
+  const disabledAllElemField = (field) => {
+    const disabledField = field.map((row) => row.map((el) => ` ${el} `));
+    setField(disabledField);
+    setField_LS(disabledField);
+  };
 
   const addSymbolToField = (idRow, idCol) => {
     const widthField = refWidthField.current.offsetWidth;
@@ -46,11 +54,11 @@ const Main = ({isOpenGame}) => {
     const {isWin, player, styles} = getDataCheckGameState(newField, widthField);
 
     if (isWin) {
+      setPlayerWin(player);
       setIsWin(isWin);
       setStylesForLineWin(styles);
+      disabledAllElemField(newField);
     }
-
-    console.log(getDataCheckGameState(newField));
   };
 
   if (isOpenGame) return <Redirect to="/" />;
@@ -80,7 +88,10 @@ const Main = ({isOpenGame}) => {
         <div style={stylesForLineWin} className="line-win">
           <div className={isWin ? 'progress active' : 'progress'}></div>
         </div>
+        <p className={isWin ? 'message-win active' : 'message-win'}>{playerWin} Won!</p>
       </div>
+
+      {/* {isWin ? <ModalWin playerWin={playerWin} /> : null} */}
     </main>
   );
 };

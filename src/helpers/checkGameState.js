@@ -1,4 +1,4 @@
-import {getSizeField_LS} from './LS';
+import {getSizeField_LS, getIsModeVsComputer_LS} from './LS';
 
 const fieldsWin = {
   combinationsWin_3x3: [
@@ -87,14 +87,14 @@ const getDataCheckGameState = (field, widthField) => {
     if (combination.every((x) => newField[x] === 'X')) {
       settingForWin = {
         isWin: true,
-        player: 'X',
+        player: 'player (X)',
         styles: getStylesForWin(i, size, widthField)
       };
     }
     if (combination.every((x) => newField[x] === 'O')) {
       settingForWin = {
         isWin: true,
-        player: 'O',
+        player: getIsModeVsComputer_LS() ? 'computer (O)' : 'player (O)',
         styles: getStylesForWin(i, size, widthField)
       };
     }
