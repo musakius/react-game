@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './pages/Main';
-import Settings from './pages/Settings';
+import Menu from './pages/Menu';
 import './App.scss';
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
       <Header />
       <Switch>
         <Route path="/game" render={() => <Main />} />
-        <Route path="/" exact render={() => <Settings />} />
+        <Route path="/" exact render={() => <Menu />} />
       </Switch>
       <Footer />
     </div>

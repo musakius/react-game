@@ -24,6 +24,11 @@ const init_LS = () => {
   }
 };
 
+const startNewGame_LS = () => {
+  LS.setItem('isMovePlayer1_rssGame', true);
+  LS.setItem('field_rssGame', createField(LS.getItem('sizeField_rssGame')));
+};
+
 const switchPlayers_LS = () => {
   LS.setItem('isMovePlayer1_rssGame', !JSON.parse(LS.getItem('isMovePlayer1_rssGame')));
 };
@@ -42,6 +47,7 @@ const getField_LS = () => JSON.parse(LS.getItem('field_rssGame'));
 
 export {
   init_LS,
+  startNewGame_LS,
   switchPlayers_LS,
   getIsMovePlayer1_LS,
   getIsModeVsComputer_LS,

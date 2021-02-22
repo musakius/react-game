@@ -8,7 +8,7 @@ const BarUsers = ({isMovePlayer1}) => {
       <div className="content">
         <div className={isMovePlayer1 ? 'content__user active' : 'content__user'}>
           <i className="fas fa-smile"></i>
-          <span className="name">player-1 ( X )</span>
+          <span className="name">player ( X )</span>
         </div>
         <span className="content__vs">VS</span>
         {getIsModeVsComputer_LS() ? (
@@ -19,7 +19,7 @@ const BarUsers = ({isMovePlayer1}) => {
         ) : (
           <div className={isMovePlayer1 ? 'content__user' : 'content__user active'}>
             <i className="fas fa-smile"></i>
-            <span className="name">player-2 ( O )</span>
+            <span className="name">player ( O )</span>
           </div>
         )}
       </div>

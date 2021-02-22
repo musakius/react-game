@@ -4,6 +4,7 @@
   justify-content: center;
   align-items: center;
   height: calc(100vh - 160px);
+  min-height: calc(700px - 160px);
   color: #fff;
   &__field {
     position: relative;
@@ -18,7 +19,7 @@
           border-top: 0;
         }
       }
-      &:nth-last-child(2) {
+      &:nth-last-child(3) {
         .col {
           border-bottom: 0;
         }
@@ -59,7 +60,7 @@
         transition: 0.7s ease-in-out;
         &.active {
           width: 100%;
-          background-color: #447aca;
+          background-color: #ca5f44;
           border-radius: 90% 30% 40% 80% / 100% 70% 130% 60%;
           border: 0;
         }
@@ -77,11 +78,9 @@
   font-size: 70px;
   color: #fff;
   background: #000;
-  text-shadow: 10px 10px 30px #fefcc9, 20px -20px 30px #feec85, -20px -20px 40px #ffae34,
-    20px -40px 50px #ec760c, -20px -60px 60px #cd4606, 0 -80px 70px #973716, 10px -90px 80px #451b0e;
   transform: scale(0);
   transition: 0.8s ease-in-out 1s;
-  animation: rotate 1.3s ease-in-out infinite;
+  animation: rotate 0.9s ease-in-out infinite;
   &.active {
     transform: scale(1);
   }
