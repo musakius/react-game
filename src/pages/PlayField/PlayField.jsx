@@ -1,31 +1,30 @@
-import React, {useState, useEffect, useRef} from 'react';
-import BarUsers from '../../components/BarUsers';
-import ModalWin from '../../components/ModalWin';
-import {Redirect} from 'react-router';
+import React, {useState, useEffect} from 'react';
 import {connect} from 'react-redux';
+import {setPlayerCurrentTurn} from '../../redux/actions';
 import {getDataCheckGameState} from '../../helpers/checkGameState';
 import {
-  init_LS,
-  switchPlayers_LS,
-  getIsMovePlayer1_LS,
   getField_LS,
-  setField_LS
+  setField_LS,
+  getIsAudioApp_LS,
+  getSizeField_LS,
+  getPlayerCurrentTurn_LS,
+  setPlayerCurrentTurn_LS,
+  addDataForStatistics_LS
 } from '../../helpers/LS';
-import './Main.scss';
+import './PlayField.scss';
 
-const Main = ({isOpenGame}) => {
+const PlayField = ({sound_X, sound_O, setPlayerCurrentTurn, stopTimer, addCountMoves}) => {
   const [field, setField] = useState([]);
-  const [isMovePlayer1, setIsMovePlayer1] = useState(true);
   const [playerWin, setPlayerWin] = useState('');
   const [isWin, setIsWin] = useState(false);
   const [stylesForLineWin, setStylesForLineWin] = useState({});
-  const refWidthField = useRef(0);
+  const [sizeField, setSizeField] = useState(0);
 
   useEffect(() => {
-    init_LS();
-    setIsMovePlayer1(getIsMovePlayer1_LS());
+    setPlayerCurrentTurn(getPlayerCurrentTurn_LS());
     setField(getField_LS());
-  }, [setField]);
+    setSizeField(getSizeField_LS());
+  }, []);
 
   const disabledAllElemField = (field) => {
     const disabledField = field.map((row) => row.map((el) => ` ${el} `));
@@ -34,47 +33,55 @@ const Main = ({isOpenGame}) => {
   };
 
   const addSymbolToField = (idRow, idCol) => {
-    const widthField = refWidthField.current.offsetWidth;
+    const currentTurn = getPlayerCurrentTurn_LS();
 
     const newField = field.map((row, i) => {
       return row.map((col, j) => {
         if (idRow === i && idCol === j) {
-          return getIsMovePlayer1_LS() ? 'X' : 'O';
+          return currentTurn;
         } else {
           return col;
         }
       });
     });
 
-    switchPlayers_LS();
-    setIsMovePlayer1(getIsMovePlayer1_LS());
+    setPlayerCurrentTurn_LS(currentTurn === 'X' ? 'O' : 'X');
+    setPlayerCurrentTurn(currentTurn);
     setField(newField);
     setField_LS(newField);
+    addCountMoves();
 
-    const {isWin, player, styles} = getDataCheckGameState(newField, widthField);
+    const {isWin, player, styles} = getDataCheckGameState(newField, sizeField);
 
     if (isWin) {
       setPlayerWin(player);
       setIsWin(isWin);
       setStylesForLineWin(styles);
       disabledAllElemField(newField);
+      stopTimer();
+      addDataForStatistics_LS(currentTurn);
+    }
+
+    if (getIsAudioApp_LS()) {
+      currentTurn === 'X' ? sound_X.play() : sound_O.play();
     }
   };
 
-  if (isOpenGame) return <Redirect to="/" />;
-
   return (
     <main className="main">
-      <BarUsers isMovePlayer1={isMovePlayer1} />
-      <div className="main__field" ref={refWidthField}>
+      <div
+        className="main__field"
+        style={{width: `${sizeField * 100}px`, height: `${100 * sizeField}px`}}
+      >
         {field.map((row, i) => {
           return (
-            <div className="row" key={i}>
+            <div className="row" style={{height: `${100 / sizeField}%`}} key={i}>
               {row.map((el, j) => {
                 return (
                   <button
                     className={Boolean(el) ? 'col disabled' : 'col'}
                     disabled={Boolean(el)}
+                    style={{width: `${100 / sizeField}%`}}
                     key={j}
                     onClick={() => addSymbolToField(i, j)}
                   >
@@ -96,8 +103,12 @@ const Main = ({isOpenGame}) => {
   );
 };
 
-const mapStateToProps = ({isOpenGame}) => {
-  return {isOpenGame};
+/* const mapStateToProps = ({isIncludedSounds}) => {
+  return {isIncludedSounds};
+}; */
+
+const mapDispatchToProps = {
+  setPlayerCurrentTurn
 };
 
-export default connect(mapStateToProps)(Main);
+export default connect(/* mapStateToProps */ null, mapDispatchToProps)(PlayField);

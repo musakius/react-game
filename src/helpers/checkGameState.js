@@ -1,4 +1,4 @@
-import {getSizeField_LS, getIsModeVsComputer_LS} from './LS';
+import {getModeVsAI_LS} from './LS';
 
 const fieldsWin = {
   combinationsWin_3x3: [
@@ -12,61 +12,61 @@ const fieldsWin = {
     [2, 4, 6]
   ],
   combinationsWin_4x4: [
-    [0, 1, 2, 4],
-    [5, 6, 7, 8],
-    [9, 10, 11, 12],
-    [13, 14, 15, 16],
-    [0, 5, 9, 13],
-    [1, 6, 10, 14],
-    [2, 7, 11, 15],
-    [4, 8, 12, 16],
-    [0, 6, 11, 16],
-    [4, 7, 10, 13]
+    [0, 1, 2, 3],
+    [4, 5, 6, 7],
+    [8, 9, 10, 11],
+    [12, 13, 14, 15],
+    [0, 4, 8, 12],
+    [1, 5, 9, 13],
+    [2, 6, 10, 14],
+    [3, 7, 11, 15],
+    [0, 5, 10, 15],
+    [3, 6, 9, 12]
   ],
   combinationsWin_5x5: [
-    [0, 1, 2, 4, 5],
-    [6, 7, 8, 9, 10],
-    [11, 12, 13, 14, 15],
-    [16, 17, 18, 19, 20],
-    [21, 22, 23, 24, 25],
-    [0, 6, 11, 16, 21],
-    [1, 7, 12, 17, 22],
-    [2, 8, 13, 18, 23],
+    [0, 1, 2, 3, 4],
+    [5, 6, 7, 8, 9],
+    [10, 11, 12, 13, 14],
+    [15, 16, 17, 18, 19],
+    [20, 21, 22, 23, 24],
+    [0, 5, 10, 15, 20],
+    [1, 6, 11, 16, 21],
+    [2, 7, 12, 17, 22],
+    [3, 8, 13, 18, 23],
     [4, 9, 14, 19, 24],
-    [5, 10, 15, 20, 25],
-    [5, 9, 13, 17, 21],
-    [0, 7, 13, 19, 25]
+    [0, 6, 12, 18, 24],
+    [4, 8, 12, 16, 20]
   ]
 };
 
-const getStylesForWin = (indexCombination, size, widthField) => {
+const getStylesForWin = (indexCombination, size, fieldLength) => {
   const widthCol = Math.floor(100 / size);
 
-  //vertical
+  //horizontal
   if (indexCombination < size) {
-    const verticalPos = widthCol * indexCombination + widthCol / 2;
-
+    const horizontalPos = widthCol * indexCombination + widthCol / 2;
     return {
-      top: `${verticalPos}%`,
-      width: `${widthField}px`,
+      top: `${horizontalPos}%`,
+      width: `${fieldLength}px`,
       height: '3px'
     };
-    //horizontal
+    //vertical
   } else if (indexCombination >= size && indexCombination < size * 2) {
-    const horizontalPos = widthCol * (indexCombination - size) - widthCol;
+    const centerPos = 50;
+    const verticalPos = widthCol * (indexCombination - size) + widthCol / 2 - centerPos;
 
     return {
-      top: '50%',
-      left: `${horizontalPos}%`,
-      width: `${widthField}px`,
+      top: `${centerPos}%`,
+      left: `${verticalPos}%`,
+      width: `${fieldLength}px`,
       height: '3px',
       transform: 'rotate(90deg)'
     };
     //diagonal
   } else if (indexCombination >= size * 2) {
     const diagonalPos = indexCombination - size * 2;
-    const diagonalWidth = Math.sqrt(2) * widthField;
-    const shiftLine = -((diagonalWidth - widthField) / 2);
+    const diagonalWidth = Math.sqrt(2) * fieldLength;
+    const shiftLine = -((diagonalWidth - fieldLength) / 2);
 
     return {
       top: '50%',
@@ -78,8 +78,8 @@ const getStylesForWin = (indexCombination, size, widthField) => {
   }
 };
 
-const getDataCheckGameState = (field, widthField) => {
-  const size = getSizeField_LS();
+const getDataCheckGameState = (field, size) => {
+  const fieldLength = size * 100;
   const newField = field.flat();
   let settingForWin = {isWin: false, player: '', styles: {}};
 
@@ -88,14 +88,14 @@ const getDataCheckGameState = (field, widthField) => {
       settingForWin = {
         isWin: true,
         player: 'player (X)',
-        styles: getStylesForWin(i, size, widthField)
+        styles: getStylesForWin(i, size, fieldLength)
       };
     }
     if (combination.every((x) => newField[x] === 'O')) {
       settingForWin = {
         isWin: true,
-        player: getIsModeVsComputer_LS() ? 'computer (O)' : 'player (O)',
-        styles: getStylesForWin(i, size, widthField)
+        player: getModeVsAI_LS() ? 'computer (O)' : 'player (O)',
+        styles: getStylesForWin(i, size, fieldLength)
       };
     }
   });

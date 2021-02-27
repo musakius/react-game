@@ -1,15 +1,16 @@
+import {init_LS} from '../../helpers/LS';
+
+init_LS();
+
 const initialState = {
   isOpenGame: false,
-  error: false
+  playerCurrentTurn: 'X'
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'CHANGE_IS_OPEN_GAME':
-      return {
-        ...state,
-        isOpenGame: !state.isOpenGame
-      };
+    case 'SET_CURRENT_PLAYER_TURN':
+      return {...state, playerCurrentTurn: action.payload};
     default:
       return state;
   }

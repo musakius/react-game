@@ -1,0 +1,39 @@
+.main {
+  .title {
+    margin: 31px 0 10px 0;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: calc(100% - 100px);
+    .form-group {
+      text-align: left;
+      border-color: #fff;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      .name-block {
+        font-size: 20px;
+      }
+      .block {
+        display: flex;
+        .custom-range {
+          width: 80%;
+          &::-webkit-slider-thumb {
+            background: #ffc107;
+          }
+        }
+        .custom-switch {
+          width: 20%;
+          text-align: center;
+          .label-switch {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .btn {
+      font-size: 23px;
+    }
+  }
+}

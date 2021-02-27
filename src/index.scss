@@ -4,3 +4,14 @@ body {
   background-color: black;
   color: #fff;
 }
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+  min-height: 668px;
+}
+
+.w-47 {
+  width: 47%;
+}

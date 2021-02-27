@@ -1,25 +1,30 @@
 import React from 'react';
-import {getIsModeVsComputer_LS} from '../../helpers/LS';
+import {
+  getModeVsAI_LS,
+  getNamePlayer1_LS,
+  getNamePlayer2_LS,
+  getNameComputer_LS
+} from '../../helpers/LS';
 import './BarUsers.scss';
 
-const BarUsers = ({isMovePlayer1}) => {
+const BarUsers = ({playerCurrentTurn}) => {
   return (
     <section className="bar-users">
       <div className="content">
-        <div className={isMovePlayer1 ? 'content__user active' : 'content__user'}>
+        <div className={playerCurrentTurn === 'X' ? 'content__user active' : 'content__user'}>
           <i className="fas fa-smile"></i>
-          <span className="name">player ( X )</span>
+          <span className="name">{getNamePlayer1_LS()} ( X )</span>
         </div>
         <span className="content__vs">VS</span>
-        {getIsModeVsComputer_LS() ? (
-          <div className={isMovePlayer1 ? 'content__user' : 'content__user active'}>
+        {getModeVsAI_LS() ? (
+          <div className={playerCurrentTurn === 'O' ? 'content__user active' : 'content__user'}>
             <i className="fas fa-robot"></i>
-            <span className="name">computer ( O )</span>
+            <span className="name">{getNameComputer_LS()} ( O )</span>
           </div>
         ) : (
-          <div className={isMovePlayer1 ? 'content__user' : 'content__user active'}>
+          <div className={playerCurrentTurn === 'O' ? 'content__user active' : 'content__user'}>
             <i className="fas fa-smile"></i>
-            <span className="name">player ( O )</span>
+            <span className="name">{getNamePlayer2_LS()} ( O )</span>
           </div>
         )}
       </div>

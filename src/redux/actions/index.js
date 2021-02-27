@@ -1,7 +1,8 @@
-const toggleIsOpenGame = () => {
+const setPlayerCurrentTurn = (value) => {
   return {
-    type: 'CHANGE_IS_OPEN_GAME'
+    type: 'SET_CURRENT_PLAYER_TURN',
+    payload: value
   };
 };
 
-export {toggleIsOpenGame};
+export {setPlayerCurrentTurn};
