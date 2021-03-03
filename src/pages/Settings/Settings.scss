@@ -1,0 +1,40 @@
+.main {
+  .title {
+    margin: 37px 0 20px 0;
+  }
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    height: calc(100% - 100px);
+    .form-group {
+      text-align: left;
+      border-color: #fff;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      height: 130px;
+      .name-block {
+        font-size: 20px;
+      }
+      .block {
+        display: flex;
+        .custom-range {
+          width: 70%;
+          &::-webkit-slider-thumb {
+            background: #8b8b8b;
+          }
+        }
+        .custom-switch {
+          text-align: center;
+          .label-switch {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    .btn {
+      font-size: 23px;
+    }
+  }
+}
+

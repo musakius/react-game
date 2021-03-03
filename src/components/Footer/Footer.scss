@@ -1,0 +1,30 @@
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 50px;
+  padding: 0 25px;
+  &__year {
+    margin-right: 10px;
+    font-weight: 800;
+  }
+  .logo-rss {
+    width: 80px;
+    margin-bottom: 8px;
+  }
+  .link {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    transition: 0.3s ease-in-out;
+    &:hover {
+      border-bottom: 1px solid #fff;
+    }
+    .logo-git {
+      font-size: 20px;
+      margin-right: 5px;
+    }
+  }
+}

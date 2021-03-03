@@ -1,0 +1,32 @@
+body {
+  text-align: center;
+  margin: 0;
+  background-color: black;
+  color: #fff;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+  padding-top: 40px;
+  min-height: 668px;
+}
+
+.w-47 {
+  width: 47%;
+}
+
+.disabled {
+  cursor: not-allowed;
+}
+
+@media (max-width: 767px) {
+  .main {
+    height: auto;
+    padding-top: 85px;
+  }
+  .w-47 {
+    width: 100%;
+  }
+}

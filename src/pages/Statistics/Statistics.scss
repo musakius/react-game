@@ -1,0 +1,25 @@
+.main-statistics {
+  justify-content: space-between;
+  .title {
+    margin: 36px 0 19px 0;
+  }
+  .table {
+    margin: 0;
+    &-dark {
+      .num {
+        width: 70px;
+        border-bottom: 0;
+      }
+    }
+    td,
+    th {
+      padding: 0.46rem;
+    }
+  }
+  .container {
+    flex-direction: column;
+    .btn {
+      font-size: 21px;
+    }
+  }
+}
