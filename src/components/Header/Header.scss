@@ -1,4 +1,36 @@
 .header {
   height: 50px;
   color: #000;
+  .navbar {
+    height: 100px;
+    justify-content: space-between;
+    .time,
+    .move {
+      font-size: 18px;
+    }
+  }
+}
+
+.w-30,
+.w-bar-users-30 {
+  width: 30%;
+}
+
+@media (max-width: 767px) {
+  .header {
+    .navbar {
+      height: 150px;
+    }
+  }
+  .w-bar-users-30 {
+    display: flex;
+    justify-content: center;
+    order: 1;
+    width: 100%;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .w-30 {
+    width: 48%;
+  }
 }

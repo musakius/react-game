@@ -1,176 +1,171 @@
 import React, {useState, useEffect, useCallback} from 'react';
+import ControlAudio from '../../components/ControlAudio';
+import ControlSelect from '../../components/ControlSelect';
 import {Link} from 'react-router-dom';
 import {
   getSizeField_LS,
-  getVolume_LS,
+  getVolumeMusic_LS,
+  getVolumeSound_LS,
   getPlayerGoesFirst_LS,
-  getNamePlayer1_LS,
-  getNamePlayer2_LS,
-  getNameComputer_LS,
+  getIsSound_LS,
+  getIsMusic_LS,
+  setIsMusic_LS,
+  setIsSound_LS,
   setSizeField_LS,
-  setVolume_LS,
-  setIsAudioApp_LS,
+  setVolumeMusic_LS,
+  setVolumeSound_LS,
   setPlayerGoesFirst_LS,
-  setNamePlayer1_LS,
-  setNamePlayer2_LS,
-  setNameComputer_LS
+  setPlayerCurrentTurn_LS,
+  setIsModeVsAI_LS,
+  setStyleApp_LS
 } from '../../helpers/LS';
 import './Settings.scss';
 
-const Settings = ({sound_X, sound_O, music_bg, startAudioBg, stopAudioBg}) => {
+const Settings = ({
+  startMusicBg,
+  stopMusicBg,
+  setVolumeMusic,
+  setStyleApp,
+  styleApp,
+  setModeVsAI,
+  modeVsAI,
+  setWalksNow,
+  setDisableReturnGame,
+  disableReturnGame
+}) => {
   const [size, setSize] = useState('3');
-  const [volume, setVolume] = useState(0);
-  const [sound, setIsAudioApp] = useState(false);
+  const [volumeMusic, setVolumeMusicState] = useState(0);
+  const [volumeSoundState, setVolumeSoundState] = useState(0);
   const [goesFirst, setGoesFirst] = useState('X');
-  const [namePlayer1, setNamePlayer1] = useState('player1');
-  const [namePlayer2, setNamePlayer2] = useState('player2');
-  const [nameComputer, setNameComputer] = useState('computer');
+  const [isMusic, setIsMusic] = useState(false);
+  const [isSound, setIsSound] = useState(false);
 
   const initState = useCallback(() => {
     setSize(getSizeField_LS());
-    setVolume(getVolume_LS() * 100);
-    setVolumeForAudio(getVolume_LS());
+    setVolumeMusicState(getVolumeMusic_LS() * 100);
+    setVolumeSoundState(getVolumeSound_LS() * 100);
     setGoesFirst(getPlayerGoesFirst_LS());
-    setNamePlayer1(getNamePlayer1_LS());
-    setNamePlayer2(getNamePlayer2_LS());
-    setNameComputer(getNameComputer_LS());
+    setIsSound(getIsSound_LS());
+    setIsMusic(getIsMusic_LS);
+    setVolumeMusic();
   }, []);
 
   useEffect(() => {
     initState();
   }, []);
-
-  const setVolumeForAudio = (value) => {
-    [music_bg, sound_X, sound_O].forEach((el) => (el.volume = value));
+  // sound
+  const onToggleSound = ({target: {checked}}) => {
+    setIsSound(checked);
+    setIsSound_LS(checked);
   };
 
-  const onChangeToggleAudio = ({target: {checked}}) => {
-    setIsAudioApp(checked);
-    setIsAudioApp_LS(checked);
-    checked ? startAudioBg() : stopAudioBg();
+  const onChangeVolumeSound = ({target: {value}}) => {
+    setVolumeSound_LS(value / 100);
+    setVolumeSoundState(value);
+  };
+  // music
+  const onToggleMusic = ({target: {checked}}) => {
+    setIsMusic(checked);
+    setIsMusic_LS(checked);
+    checked ? startMusicBg() : stopMusicBg();
   };
 
-  const onChangeSound = ({target: {value}}) => {
-    const valueForAudio = value / 100;
-
-    setVolumeForAudio(valueForAudio);
-    setVolume_LS(valueForAudio);
-    setVolume(value);
+  const onChangeVolumeMusic = ({target: {value}}) => {
+    setVolumeMusic_LS(value / 100);
+    setVolumeMusicState(value);
+    setVolumeMusic();
   };
-
+  // size
   const onChangeSize = ({target: {value}}) => {
     setSizeField_LS(value);
     setSize(value);
+    setDisableReturnGame(true);
   };
-
+  // mode vs AI
+  const onChangeModeVsAI = ({target: {value}}) => {
+    const valueBool = value === 'true' ? true : false;
+    setIsModeVsAI_LS(valueBool);
+    setModeVsAI(valueBool);
+    setDisableReturnGame(true);
+  };
+  // style app
+  const onChangeStyleApp = ({target: {value}}) => {
+    setStyleApp_LS(value);
+    setStyleApp(value);
+  };
+  // goes first
   const onChangeGoesFirst = ({target: {value}}) => {
-    setPlayerGoesFirst_LS(value);
-    setGoesFirst(value);
-  };
-
-  const onChangeNamePlayer1 = ({target: {value}}) => {
-    setNamePlayer1_LS(value);
-    setNamePlayer1(value);
-  };
-
-  const onChangeNamePlayer2 = ({target: {value}}) => {
-    setNamePlayer2_LS(value);
-    setNamePlayer2(value);
-  };
-
-  const onChangeNameComputer = ({target: {value}}) => {
-    setNameComputer_LS(value);
-    setNameComputer(value);
+    const dataForMove = {name: goesFirst.name, symbol: value};
+    setPlayerGoesFirst_LS(dataForMove);
+    setPlayerCurrentTurn_LS(dataForMove);
+    setGoesFirst(dataForMove);
+    setWalksNow(dataForMove);
+    setDisableReturnGame(true);
   };
 
   return (
     <main className="main justify-content-between">
       <h1 className="title">Settings</h1>
       <section className="container">
-        <fieldset className="form-group jumbotron w-47">
-          <h3 className="name-block">Sound</h3>
-          <div className="block">
-            <div className="custom-control custom-switch">
-              <input
-                type="checkbox"
-                className="custom-control-input"
-                id="switch"
-                checked={sound}
-                onChange={(e) => onChangeToggleAudio(e)}
-              />
-              <label className="custom-control-label label-switch" htmlFor="switch">
-                off / on
-              </label>
-            </div>
-            <input
-              type="range"
-              className="custom-range"
-              value={volume}
-              onChange={(e) => onChangeSound(e)}
-            />
-          </div>
-        </fieldset>
-        <fieldset className="form-group jumbotron w-47">
-          <h3 className="name-block">Field size</h3>
-          <select className="form-control" value={size} onChange={(e) => onChangeSize(e)}>
-            <option value="3">3x3</option>
-            <option value="4">4x4</option>
-            <option value="5">5x5</option>
-          </select>
-        </fieldset>
-        <fieldset className="form-group jumbotron w-47">
-          <h3 className="name-block">Goes first</h3>
-          <select className="form-control" value={goesFirst} onChange={(e) => onChangeGoesFirst(e)}>
-            <option value="X">X</option>
-            <option value="O">O</option>
-          </select>
-        </fieldset>
-        <fieldset className="form-group jumbotron w-100">
-          <h3 className="name-block mb-0">Change name</h3>
-          <div className="block d-flex justify-content-between">
-            <div className="item">
-              <label className="col-form-label" htmlFor="player1">
-                player 1
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="player 1"
-                id="player1"
-                value={namePlayer1}
-                onChange={onChangeNamePlayer1}
-              />
-            </div>
-            <div className="item">
-              <label className="col-form-label" htmlFor="player2">
-                player 2
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="player 2"
-                id="player2"
-                value={namePlayer2}
-                onChange={onChangeNamePlayer2}
-              />
-            </div>
-            <div className="item">
-              <label className="col-form-label" htmlFor="computer">
-                computer
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="computer"
-                id="computer"
-                value={nameComputer}
-                onChange={onChangeNameComputer}
-              />
-            </div>
-          </div>
-        </fieldset>
+        <ControlAudio
+          title="Sound"
+          onToggleSound={onToggleSound}
+          isSound={isSound}
+          onChangeVolume={onChangeVolumeSound}
+          volume={volumeSoundState}
+        />
+        <ControlAudio
+          title="Music"
+          onToggleSound={onToggleMusic}
+          isSound={isMusic}
+          onChangeVolume={onChangeVolumeMusic}
+          volume={volumeMusic}
+        />
+        <ControlSelect
+          title="Field size"
+          onChangeValue={onChangeSize}
+          value={size}
+          disableReturnGame={disableReturnGame}
+          elements={[
+            {value: '3', content: '3x3'},
+            {value: '4', content: '4x4'},
+            {value: '5', content: '5x5'}
+          ]}
+        />
+        <ControlSelect
+          title="Versus"
+          onChangeValue={onChangeModeVsAI}
+          value={modeVsAI}
+          disableReturnGame={disableReturnGame}
+          elements={[
+            {value: 'false', content: 'Player'},
+            {value: 'true', content: 'Computer'}
+          ]}
+        />
+        <ControlSelect
+          title="Application styles"
+          onChangeValue={onChangeStyleApp}
+          value={styleApp}
+          disableReturnGame={false}
+          elements={[
+            {value: 'warning', content: 'Orange'},
+            {value: 'danger', content: 'Red'},
+            {value: 'success', content: 'Green'},
+            {value: 'info', content: 'Blue'}
+          ]}
+        />
+        <ControlSelect
+          title="Goes first"
+          onChangeValue={onChangeGoesFirst}
+          value={goesFirst.symbol}
+          disableReturnGame={disableReturnGame}
+          elements={[
+            {value: 'X', content: 'X'},
+            {value: 'O', content: 'O'}
+          ]}
+        />
         <div className="w-100">
-          <Link to="/" className="btn btn-warning">
+          <Link to="/" className={`btn btn-${styleApp}`}>
             Back
           </Link>
         </div>

@@ -1,0 +1,33 @@
+.modal-music-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(207, 207, 207, 0.479);
+  .modal-content {
+    max-width: 400px;
+    padding: 15px;
+    color: #000;
+    .block-message {
+      margin: 50px;
+      .message {
+        font-size: 30px;
+        color: #555;
+        i {
+          color: rgb(240, 218, 22);
+          margin: 10px;
+        }
+      }
+      .info {
+        margin-top: 50px;
+        padding: 0 10px;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

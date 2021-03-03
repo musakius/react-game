@@ -1,5 +1,3 @@
-import {getModeVsAI_LS} from './LS';
-
 const fieldsWin = {
   combinationsWin_3x3: [
     [0, 1, 2],
@@ -80,21 +78,19 @@ const getStylesForWin = (indexCombination, size, fieldLength) => {
 
 const getDataCheckGameState = (field, size) => {
   const fieldLength = size * 100;
-  const newField = field.flat();
+  const fieldNoLevels = field.flat();
   let settingForWin = {isWin: false, player: '', styles: {}};
 
   fieldsWin[`combinationsWin_${size}x${size}`].forEach((combination, i) => {
-    if (combination.every((x) => newField[x] === 'X')) {
+    if (combination.every((x) => fieldNoLevels[x] === 'X')) {
       settingForWin = {
         isWin: true,
-        player: 'player (X)',
         styles: getStylesForWin(i, size, fieldLength)
       };
     }
-    if (combination.every((x) => newField[x] === 'O')) {
+    if (combination.every((x) => fieldNoLevels[x] === 'O')) {
       settingForWin = {
         isWin: true,
-        player: getModeVsAI_LS() ? 'computer (O)' : 'player (O)',
         styles: getStylesForWin(i, size, fieldLength)
       };
     }

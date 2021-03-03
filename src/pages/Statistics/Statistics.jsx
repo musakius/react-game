@@ -3,11 +3,10 @@ import {Link} from 'react-router-dom';
 import {getStatistics_LS} from '../../helpers/LS';
 import './Statistics.scss';
 
-const Statistics = () => {
+const Statistics = ({styleApp}) => {
   const [statistics, setStatistics] = useState([]);
 
   useEffect(() => {
-    console.log(getStatistics_LS());
     setStatistics(getStatistics_LS());
   }, []);
 
@@ -30,7 +29,9 @@ const Statistics = () => {
               return (
                 <tr key={i}>
                   <th>{i + 1}</th>
-                  <td>{el.playerWin}</td>
+                  <td>
+                    {el.playerWin.name} ( {el.playerWin.symbol} )
+                  </td>
                   <td>
                     {el.sizeField}x{el.sizeField}
                   </td>
@@ -41,8 +42,8 @@ const Statistics = () => {
             })}
           </tbody>
         </table>
-        <div className="w-100">
-          <Link to="/" className="btn btn-warning">
+        <div className="w-100 pb-3">
+          <Link to="/" className={`btn btn-${styleApp}`}>
             Back
           </Link>
         </div>

@@ -28,6 +28,9 @@
         &:hover {
           background-color: #333;
         }
+        &.active {
+          background-color: #333;
+        }
         &.disabled {
           &:hover {
             background-color: transparent;
@@ -60,48 +63,5 @@
         }
       }
     }
-  }
-}
-
-.message-win {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  text-align: center;
-  width: 100%;
-  font-size: 70px;
-  color: #fff;
-  background: #000;
-  transform: scale(0);
-  transition: 0.8s ease-in-out 1s;
-  animation: rotate 0.8s ease-in-out infinite;
-  &.active {
-    transform: scale(1);
-  }
-}
-
-@keyframes rotate {
-  0% {
-    text-shadow: 10px 10px 30px #fefcc9, 20px -20px 30px #feec85, -25px -25px 45px #ffae34,
-      30px -50px 60px #ec760c, -35px -85px 75px #cd4606, 20px -100px 90px #973716,
-      35px -115px 105px #451b0e;
-  }
-
-  25% {
-    text-shadow: 10px 10px 30px #fefcc9, 20px -20px 30px #feec85, -20px -20px 40px #ffae34,
-      20px -40px 50px #ec760c, -20px -60px 60px #cd4606, 0 -80px 70px #973716,
-      10px -90px 80px #451b0e;
-  }
-
-  75% {
-    text-shadow: 10px 10px 30px #fefcc9, 20px -20px 30px #feec85, -25px -25px 45px #ffae34,
-      30px -50px 60px #ec760c, -35px -85px 75px #cd4606, 20px -100px 90px #973716,
-      35px -115px 105px #451b0e;
-  }
-
-  100% {
-    text-shadow: 10px 10px 30px #fefcc9, 20px -20px 30px #feec85, -20px -20px 40px #ffae34,
-      20px -40px 50px #ec760c, -20px -60px 60px #cd4606, 0 -80px 70px #973716,
-      10px -90px 80px #451b0e;
   }
 }

@@ -3,12 +3,14 @@
   align-items: center;
   justify-content: space-between;
   height: 50px;
+  padding: 0 25px;
   &__year {
     margin-right: 10px;
     font-weight: 800;
   }
   .logo-rss {
     width: 80px;
+    margin-bottom: 8px;
   }
   .link {
     margin-left: 10px;
@@ -23,38 +25,6 @@
     .logo-git {
       font-size: 20px;
       margin-right: 5px;
-    }
-  }
-}
-
-@media (max-width: 605px) {
-  .footer {
-    .year {
-      font-size: 14px;
-    }
-    .link {
-      font-size: 15px;
-      .logo-git {
-        display: none;
-      }
-    }
-    .logo-rss {
-      width: 30px;
-    }
-  }
-}
-
-@media (max-width: 490px) {
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-    .year {
-      margin: 0;
-      font-size: 10px;
-    }
-
-    .link {
-      font-size: 10px;
     }
   }
 }

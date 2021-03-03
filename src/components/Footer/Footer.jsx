@@ -15,6 +15,14 @@ const Footer = () => {
         <i className="fab fa-github logo-git"></i>
         musakius
       </a>
+      <a
+        href="https://youtu.be/xrdu4KReqgM"
+        className="link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <i class="fab fa-youtube"></i>
+      </a>
       <a className="link" href="https://rs.school/js/" target="_blank" rel="noopener noreferrer">
         <img className="logo-rss" src={rssLogo} alt="rs_school" />
       </a>

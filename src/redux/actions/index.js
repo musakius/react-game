@@ -5,4 +5,11 @@ const setPlayerCurrentTurn = (value) => {
   };
 };
 
-export {setPlayerCurrentTurn};
+const setAutoplay = (value) => {
+  return {
+    type: 'SET_AUTOPLAY',
+    payload: value
+  };
+};
+
+export {setPlayerCurrentTurn, setAutoplay};

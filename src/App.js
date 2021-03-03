@@ -6,42 +6,67 @@ import PlayField from './pages/PlayField';
 import Menu from './pages/Menu';
 import Settings from './pages/Settings';
 import Statistics from './pages/Statistics';
+import HotKeys from './pages/HotKeys';
+import ModalForMusic from './components/ModalForMusic';
 import audio_X from './assets/X.mp3';
 import audio_O from './assets/O.mp3';
 import audio_bg from './assets/music.mp3';
-import {setSec_LS, setMin_LS, setMove_LS, getSec_LS, getMin_LS, getMove_LS} from './helpers/LS';
+import {
+  setSec_LS,
+  setMin_LS,
+  setMove_LS,
+  getSec_LS,
+  getMin_LS,
+  getMove_LS,
+  getIsSound_LS,
+  getVolumeSound_LS,
+  getVolumeMusic_LS,
+  getStyleApp_LS,
+  getIsModeVsAI_LS,
+  getPlayerCurrentTurn_LS
+} from './helpers/LS';
 import './App.scss';
 
 function App() {
   const [clockTimer, setClockTimer] = useState(undefined);
   const [time, setTime] = useState('00 : 00');
   const [countMoves, setCountMoves] = useState(0);
+  const [styleApp, setStyleApp] = useState(false);
+  const [modeVsAI, setModeVsAI] = useState(false);
+  const [walksNow, setWalksNow] = useState('X');
+
+  const [disableReturnGame, setDisableReturnGame] = useState(false);
 
   const sound_X = new Audio(audio_X);
   const sound_O = new Audio(audio_O);
   const music_bg = new Audio(audio_bg);
-  const cycleMusicBg = music_bg.duration * 1000 + 300;
-  let timerAudioBg;
 
   useEffect(() => {
     setTime(`${getMin_LS()} : ${getSec_LS()}`);
     setCountMoves(getMove_LS());
+    setStyleApp(getStyleApp_LS());
+    setModeVsAI(getIsModeVsAI_LS());
+    setWalksNow(getPlayerCurrentTurn_LS());
   }, []);
 
-  const startAudioBg = () => {
+  const startMusicBg = () => {
+    music_bg.loop = true;
     music_bg.play();
-
-    if (timerAudioBg) clearInterval(timerAudioBg);
-
-    timerAudioBg = setInterval(() => {
-      if (music_bg.paused) music_bg.play();
-    }, cycleMusicBg);
   };
 
-  const stopAudioBg = () => {
+  const stopMusicBg = () => {
     music_bg.pause();
     music_bg.currentTime = 0;
-    clearInterval(timerAudioBg);
+  };
+
+  const setVolumeSound = () => {
+    const value = getVolumeSound_LS();
+    sound_X.volume = value;
+    sound_O.volume = value;
+  };
+
+  const setVolumeMusic = () => {
+    music_bg.volume = getVolumeMusic_LS();
   };
 
   const startTimer = (min = 0, sec = 0) => {
@@ -74,23 +99,47 @@ function App() {
     setMove_LS(currentMoves);
   };
 
+  const playSound = (symbol) => {
+    if (getIsSound_LS()) {
+      setVolumeSound();
+      symbol === 'X' ? sound_X.play() : sound_O.play();
+    }
+  };
+
   return (
     <div className="app">
-      <Header time={time} startTimer={startTimer} stopTimer={stopTimer} countMoves={countMoves} />
+      <Header
+        time={time}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
+        countMoves={countMoves}
+        styleApp={styleApp}
+        modeVsAI={modeVsAI}
+        walksNow={walksNow}
+      />
       <Switch>
         <Route
           path="/"
           exact
-          render={() => <Menu startTimer={startTimer} setCountMoves={setCountMoves} />}
+          render={() => (
+            <Menu
+              startTimer={startTimer}
+              setCountMoves={setCountMoves}
+              styleApp={styleApp}
+              setDisableReturnGame={setDisableReturnGame}
+              disableReturnGame={disableReturnGame}
+            />
+          )}
         />
         <Route
           path="/game"
           render={() => (
             <PlayField
-              sound_X={sound_X}
-              sound_O={sound_O}
+              playSound={playSound}
               stopTimer={stopTimer}
               addCountMoves={addCountMoves}
+              setWalksNow={setWalksNow}
+              walksNow={walksNow}
             />
           )}
         />
@@ -101,14 +150,24 @@ function App() {
               sound_X={sound_X}
               sound_O={sound_O}
               music_bg={music_bg}
-              startAudioBg={startAudioBg}
-              stopAudioBg={stopAudioBg}
+              startMusicBg={startMusicBg}
+              stopMusicBg={stopMusicBg}
+              setVolumeMusic={setVolumeMusic}
+              setStyleApp={setStyleApp}
+              styleApp={styleApp}
+              setModeVsAI={setModeVsAI}
+              modeVsAI={modeVsAI}
+              setWalksNow={setWalksNow}
+              setDisableReturnGame={setDisableReturnGame}
+              disableReturnGame={disableReturnGame}
             />
           )}
         />
-        <Route path="/statistics" render={() => <Statistics />} />
+        <Route path="/statistics" render={() => <Statistics styleApp={styleApp} />} />
+        <Route path="/hot-keys" render={() => <HotKeys styleApp={styleApp} />} />
       </Switch>
       <Footer />
+      <ModalForMusic startMusicBg={startMusicBg} />
     </div>
   );
 }

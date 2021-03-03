@@ -11,7 +11,8 @@
     &__user {
       transition: transform 0.3s ease-in-out;
       &.active {
-        color: rgb(64, 165, 224);
+        color: #fff;
+        text-shadow: 1px 1px 2px black, 0 0 1em rgb(255, 255, 255);
         transform: scale(1.05);
       }
       i {

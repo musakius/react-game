@@ -1,7 +1,7 @@
 .main-statistics {
   justify-content: space-between;
   .title {
-    margin: 56px 0 19px 0;
+    margin: 36px 0 19px 0;
   }
   .table {
     margin: 0;
@@ -17,6 +17,7 @@
     }
   }
   .container {
+    flex-direction: column;
     .btn {
       font-size: 21px;
     }

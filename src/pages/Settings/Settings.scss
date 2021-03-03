@@ -1,6 +1,6 @@
 .main {
   .title {
-    margin: 31px 0 10px 0;
+    margin: 37px 0 20px 0;
   }
   .container {
     display: flex;
@@ -12,19 +12,19 @@
       border-color: #fff;
       padding: 1rem;
       margin-bottom: 1.5rem;
+      height: 130px;
       .name-block {
         font-size: 20px;
       }
       .block {
         display: flex;
         .custom-range {
-          width: 80%;
+          width: 70%;
           &::-webkit-slider-thumb {
-            background: #ffc107;
+            background: #8b8b8b;
           }
         }
         .custom-switch {
-          width: 20%;
           text-align: center;
           .label-switch {
             cursor: pointer;
@@ -37,3 +37,4 @@
     }
   }
 }
+
